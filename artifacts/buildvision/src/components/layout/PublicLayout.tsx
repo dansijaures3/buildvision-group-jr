@@ -1,12 +1,14 @@
 import { Link, useLocation } from "wouter";
-import { Menu, X, ChevronRight, Phone, Mail, MapPin } from "lucide-react";
+import { Menu, X, ChevronRight, Phone, Mail, MapPin, Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { useGetCompanyInfo } from "@workspace/api-client-react";
 
 export function PublicLayout({ children }: { children: React.ReactNode }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [location] = useLocation();
+  const { data: info } = useGetCompanyInfo();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -194,17 +196,24 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
               <ul className="space-y-4 text-sm">
                 <li className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-primary shrink-0" />
-                  <span>123 Avenue de l'Indépendance<br />Abidjan, Côte d'Ivoire</span>
+                  <span>{info?.address || "Immeuble Horizon"}<br />{info?.city || "Abidjan"}, {info?.country || "Côte d'Ivoire"}</span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-primary shrink-0" />
-                  <span>+225 01 23 45 67 89</span>
+                  <a href={`tel:${info?.phone || ""}`} className="hover:text-white">{info?.phone || "+225 27 22 49 50 00"}</a>
                 </li>
                 <li className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-primary shrink-0" />
-                  <span>contact@buildvision.group</span>
+                  <a href={`mailto:${info?.email || ""}`} className="hover:text-white break-all">{info?.email || "contact@buildvision.ci"}</a>
                 </li>
               </ul>
+              <div className="flex gap-2 mt-6">
+                {info?.facebook && <a href={info.facebook} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-zinc-900 hover:bg-primary flex items-center justify-center transition-colors"><Facebook className="w-3.5 h-3.5" /></a>}
+                {info?.instagram && <a href={info.instagram} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-zinc-900 hover:bg-primary flex items-center justify-center transition-colors"><Instagram className="w-3.5 h-3.5" /></a>}
+                {info?.linkedin && <a href={info.linkedin} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-zinc-900 hover:bg-primary flex items-center justify-center transition-colors"><Linkedin className="w-3.5 h-3.5" /></a>}
+                {info?.twitter && <a href={info.twitter} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-zinc-900 hover:bg-primary flex items-center justify-center transition-colors"><Twitter className="w-3.5 h-3.5" /></a>}
+                {info?.youtube && <a href={info.youtube} target="_blank" rel="noreferrer" className="w-8 h-8 rounded-full bg-zinc-900 hover:bg-primary flex items-center justify-center transition-colors"><Youtube className="w-3.5 h-3.5" /></a>}
+              </div>
             </div>
           </div>
 

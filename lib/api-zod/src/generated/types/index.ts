@@ -10,6 +10,8 @@ export * from "./blogPost";
 export * from "./blogPostInput";
 export * from "./commerceItem";
 export * from "./commerceItemInput";
+export * from "./companyInfo";
+export * from "./companyInfoInput";
 export * from "./contactMessage";
 export * from "./contactMessageInput";
 export * from "./dashboardStats";

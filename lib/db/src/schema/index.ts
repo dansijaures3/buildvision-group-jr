@@ -124,6 +124,29 @@ export const quoteRequests = pgTable("quote_requests", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const companyInfo = pgTable("company_info", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().default("BuildVision Group & JR Service"),
+  tagline: text("tagline").notNull().default(""),
+  about: text("about").notNull().default(""),
+  mission: text("mission").notNull().default(""),
+  vision: text("vision").notNull().default(""),
+  email: text("email").notNull().default(""),
+  phone: text("phone").notNull().default(""),
+  whatsapp: text("whatsapp").notNull().default(""),
+  address: text("address").notNull().default(""),
+  city: text("city").notNull().default(""),
+  country: text("country").notNull().default(""),
+  hours: text("hours").notNull().default(""),
+  facebook: text("facebook"),
+  instagram: text("instagram"),
+  linkedin: text("linkedin"),
+  twitter: text("twitter"),
+  youtube: text("youtube"),
+  logo: text("logo"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const contactMessages = pgTable("contact_messages", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),

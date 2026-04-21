@@ -12,6 +12,7 @@ import testimonialsRouter from "./testimonials";
 import quotesRouter from "./quotes";
 import contactRouter from "./contact";
 import statsRouter from "./stats";
+import companyInfoRouter from "./companyInfo";
 
 const router: IRouter = Router();
 
@@ -28,5 +29,6 @@ router.use(testimonialsRouter);
 router.use(quotesRouter);
 router.use(contactRouter);
 router.use(statsRouter);
+router.use(companyInfoRouter);
 
 export default router;

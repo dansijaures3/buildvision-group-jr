@@ -12,6 +12,7 @@ import {
   Handshake, 
   MessageSquareQuote,
   MessageSquare,
+  Building2,
   LogOut,
   ArrowLeft
 } from "lucide-react";
@@ -48,6 +49,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     { label: "Témoignages", href: "/admin/testimonials", icon: MessageSquareQuote },
     { label: "Devis", href: "/admin/quotes", icon: FileText },
     { label: "Messages", href: "/admin/contact", icon: MessageSquare },
+    { label: "Informations entreprise", href: "/admin/company", icon: Building2 },
   ];
 
   if (!isAuthenticated) return null;

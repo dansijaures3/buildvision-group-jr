@@ -470,6 +470,31 @@ paths:
       responses:
         "204": { description: No Content }
 
+  /company-info:
+    get:
+      operationId: getCompanyInfo
+      tags: [companyInfo]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CompanyInfo" }
+    put:
+      operationId: updateCompanyInfo
+      tags: [companyInfo]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CompanyInfoInput" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CompanyInfo" }
+
   /testimonials:
     get:
       operationId: listTestimonials
@@ -834,6 +859,53 @@ components:
         name: { type: string }
         logo: { type: string }
         website: { type: string, nullable: true }
+
+    CompanyInfo:
+      type: object
+      required: [id, name, tagline, about, mission, vision, email, phone, whatsapp, address, city, country, hours, updatedAt]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        tagline: { type: string }
+        about: { type: string }
+        mission: { type: string }
+        vision: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        whatsapp: { type: string }
+        address: { type: string }
+        city: { type: string }
+        country: { type: string }
+        hours: { type: string }
+        facebook: { type: string, nullable: true }
+        instagram: { type: string, nullable: true }
+        linkedin: { type: string, nullable: true }
+        twitter: { type: string, nullable: true }
+        youtube: { type: string, nullable: true }
+        logo: { type: string, nullable: true }
+        updatedAt: { type: string }
+    CompanyInfoInput:
+      type: object
+      required: [name, tagline, about, mission, vision, email, phone, whatsapp, address, city, country, hours]
+      properties:
+        name: { type: string }
+        tagline: { type: string }
+        about: { type: string }
+        mission: { type: string }
+        vision: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        whatsapp: { type: string }
+        address: { type: string }
+        city: { type: string }
+        country: { type: string }
+        hours: { type: string }
+        facebook: { type: string, nullable: true }
+        instagram: { type: string, nullable: true }
+        linkedin: { type: string, nullable: true }
+        twitter: { type: string, nullable: true }
+        youtube: { type: string, nullable: true }
+        logo: { type: string, nullable: true }
 
     Testimonial:
       type: object

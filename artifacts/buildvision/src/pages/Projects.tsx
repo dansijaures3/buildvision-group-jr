@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { useListProjects } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
-import { MapPin, Calendar, ArrowRight } from "lucide-react";
+import { MapPin, Calendar, ArrowRight, Briefcase } from "lucide-react";
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<string>("all");

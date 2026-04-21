@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 
-// Public Pages
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Services from "@/pages/Services";
@@ -21,12 +20,21 @@ import Partners from "@/pages/Partners";
 import Contact from "@/pages/Contact";
 import Quote from "@/pages/Quote";
 
-// Admin Layout
 import { AdminLayout } from "@/components/layout/AdminLayout";
-
-// Admin Pages
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
+import AdminHeroSlider from "@/pages/admin/HeroSlider";
+import AdminProjects from "@/pages/admin/Projects";
+import AdminServices from "@/pages/admin/Services";
+import AdminTeam from "@/pages/admin/Team";
+import AdminEvents from "@/pages/admin/Events";
+import AdminCommerce from "@/pages/admin/Commerce";
+import AdminBlog from "@/pages/admin/Blog";
+import AdminPartners from "@/pages/admin/Partners";
+import AdminTestimonials from "@/pages/admin/Testimonials";
+import AdminQuotes from "@/pages/admin/Quotes";
+import AdminContact from "@/pages/admin/Contact";
+import AdminCompanyInfo from "@/pages/admin/CompanyInfo";
 
 const queryClient = new QueryClient();
 
@@ -56,26 +64,33 @@ function PublicRoutes() {
 
 function AdminRoutes() {
   return (
-    <Switch>
-      <Route path="/admin/login" component={AdminLogin} />
-      <Route path="/admin/*">
-        <AdminLayout>
-          <Switch>
-            <Route path="/admin" component={AdminDashboard} />
-            <Route component={NotFound} />
-          </Switch>
-        </AdminLayout>
-      </Route>
-    </Switch>
+    <AdminLayout>
+      <Switch>
+        <Route path="/admin" component={AdminDashboard} />
+        <Route path="/admin/hero" component={AdminHeroSlider} />
+        <Route path="/admin/projects" component={AdminProjects} />
+        <Route path="/admin/services" component={AdminServices} />
+        <Route path="/admin/team" component={AdminTeam} />
+        <Route path="/admin/events" component={AdminEvents} />
+        <Route path="/admin/commerce" component={AdminCommerce} />
+        <Route path="/admin/blog" component={AdminBlog} />
+        <Route path="/admin/partners" component={AdminPartners} />
+        <Route path="/admin/testimonials" component={AdminTestimonials} />
+        <Route path="/admin/quotes" component={AdminQuotes} />
+        <Route path="/admin/contact" component={AdminContact} />
+        <Route path="/admin/company" component={AdminCompanyInfo} />
+        <Route component={NotFound} />
+      </Switch>
+    </AdminLayout>
   );
 }
 
 function Router() {
   return (
     <Switch>
-      <Route path="/admin" nest component={AdminRoutes} />
-      <Route path="/admin/*" nest component={AdminRoutes} />
-      <Route path="/*" component={PublicRoutes} />
+      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin/:rest*" component={AdminRoutes} />
+      <Route component={PublicRoutes} />
     </Switch>
   );
 }

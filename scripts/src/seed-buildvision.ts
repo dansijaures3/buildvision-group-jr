@@ -9,6 +9,7 @@ import {
   blogPosts,
   partners,
   testimonials,
+  companyInfo,
 } from "@workspace/db";
 
 async function main() {
@@ -559,6 +560,31 @@ async function main() {
       rating: 5,
     },
   ]);
+
+  await db.delete(companyInfo);
+  await db.insert(companyInfo).values({
+    name: "BuildVision Group & JR Service",
+    tagline: "Architecture | Construction | Événementiel | Commerce",
+    about:
+      "BuildVision Group & JR Service est un holding d'ingénierie ouest-africain qui conçoit, construit et orchestre les espaces et les événements de demain. Quatre pôles, une seule exigence : l'excellence.",
+    mission:
+      "Bâtir des ouvrages durables et produire des expériences premium qui élèvent nos clients et transforment les territoires.",
+    vision:
+      "Devenir la référence ouest-africaine de l'ingénierie intégrée, du concept architectural à la livraison événementielle.",
+    email: "contact@buildvision.ci",
+    phone: "+225 27 22 49 50 00",
+    whatsapp: "+225 07 00 00 00 00",
+    address: "Immeuble Horizon, Boulevard Lagunaire",
+    city: "Abidjan",
+    country: "Côte d'Ivoire",
+    hours: "Lundi - Vendredi : 8h00 - 18h00",
+    facebook: "https://facebook.com/buildvision",
+    instagram: "https://instagram.com/buildvision",
+    linkedin: "https://linkedin.com/company/buildvision",
+    twitter: null,
+    youtube: null,
+    logo: null,
+  });
 
   console.log("Seed completed successfully.");
   process.exit(0);

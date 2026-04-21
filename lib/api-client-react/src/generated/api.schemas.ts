@@ -188,6 +188,50 @@ export interface PartnerInput {
   website?: string | null;
 }
 
+export interface CompanyInfo {
+  id: number;
+  name: string;
+  tagline: string;
+  about: string;
+  mission: string;
+  vision: string;
+  email: string;
+  phone: string;
+  whatsapp: string;
+  address: string;
+  city: string;
+  country: string;
+  hours: string;
+  facebook?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  twitter?: string | null;
+  youtube?: string | null;
+  logo?: string | null;
+  updatedAt: string;
+}
+
+export interface CompanyInfoInput {
+  name: string;
+  tagline: string;
+  about: string;
+  mission: string;
+  vision: string;
+  email: string;
+  phone: string;
+  whatsapp: string;
+  address: string;
+  city: string;
+  country: string;
+  hours: string;
+  facebook?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  twitter?: string | null;
+  youtube?: string | null;
+  logo?: string | null;
+}
+
 export interface Testimonial {
   id: number;
   name: string;

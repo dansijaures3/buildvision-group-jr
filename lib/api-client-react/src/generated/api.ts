@@ -21,6 +21,8 @@ import type {
   BlogPostInput,
   CommerceItem,
   CommerceItemInput,
+  CompanyInfo,
+  CompanyInfoInput,
   ContactMessage,
   ContactMessageInput,
   DashboardStats,
@@ -2773,6 +2775,154 @@ export const useDeletePartner = <
   TContext
 > => {
   return useMutation(getDeletePartnerMutationOptions(options));
+};
+
+export const getGetCompanyInfoUrl = () => {
+  return `/api/company-info`;
+};
+
+export const getCompanyInfo = async (
+  options?: RequestInit,
+): Promise<CompanyInfo> => {
+  return customFetch<CompanyInfo>(getGetCompanyInfoUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetCompanyInfoQueryKey = () => {
+  return [`/api/company-info`] as const;
+};
+
+export const getGetCompanyInfoQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCompanyInfo>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getCompanyInfo>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetCompanyInfoQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCompanyInfo>>> = ({
+    signal,
+  }) => getCompanyInfo({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCompanyInfo>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetCompanyInfoQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCompanyInfo>>
+>;
+export type GetCompanyInfoQueryError = ErrorType<unknown>;
+
+export function useGetCompanyInfo<
+  TData = Awaited<ReturnType<typeof getCompanyInfo>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getCompanyInfo>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetCompanyInfoQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+export const getUpdateCompanyInfoUrl = () => {
+  return `/api/company-info`;
+};
+
+export const updateCompanyInfo = async (
+  companyInfoInput: CompanyInfoInput,
+  options?: RequestInit,
+): Promise<CompanyInfo> => {
+  return customFetch<CompanyInfo>(getUpdateCompanyInfoUrl(), {
+    ...options,
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(companyInfoInput),
+  });
+};
+
+export const getUpdateCompanyInfoMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateCompanyInfo>>,
+    TError,
+    { data: BodyType<CompanyInfoInput> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateCompanyInfo>>,
+  TError,
+  { data: BodyType<CompanyInfoInput> },
+  TContext
+> => {
+  const mutationKey = ["updateCompanyInfo"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateCompanyInfo>>,
+    { data: BodyType<CompanyInfoInput> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return updateCompanyInfo(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateCompanyInfoMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateCompanyInfo>>
+>;
+export type UpdateCompanyInfoMutationBody = BodyType<CompanyInfoInput>;
+export type UpdateCompanyInfoMutationError = ErrorType<unknown>;
+
+export const useUpdateCompanyInfo = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateCompanyInfo>>,
+    TError,
+    { data: BodyType<CompanyInfoInput> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof updateCompanyInfo>>,
+  TError,
+  { data: BodyType<CompanyInfoInput> },
+  TContext
+> => {
+  return useMutation(getUpdateCompanyInfoMutationOptions(options));
 };
 
 export const getListTestimonialsUrl = () => {
