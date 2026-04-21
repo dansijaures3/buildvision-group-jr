@@ -1,27 +1,23 @@
-# Workspace
+# BuildVision Group & JR Service
 
-## Overview
-
-pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
+Premium French corporate platform for a West-African engineering & event-production holding (4 pillars: Architecture, Construction, Événementiel, Commerce).
 
 ## Stack
+- pnpm monorepo (React + Vite frontend, Express API server, PostgreSQL via Drizzle).
+- API contract is `lib/api-spec/openapi.yaml` → orval generates `@workspace/api-zod`, `@workspace/api-client-react`, and `@workspace/db` schema types.
 
-- **Monorepo tool**: pnpm workspaces
-- **Node.js version**: 24
-- **Package manager**: pnpm
-- **TypeScript version**: 5.9
-- **API framework**: Express 5
-- **Database**: PostgreSQL + Drizzle ORM
-- **Validation**: Zod (`zod/v4`), `drizzle-zod`
-- **API codegen**: Orval (from OpenAPI spec)
-- **Build**: esbuild (CJS bundle)
+## Artifacts
+- `artifacts/buildvision` — public site + admin dashboard (preview path `/`).
+- `artifacts/api-server` — REST API.
 
-## Key Commands
+## Admin
+- Soft password gate stored in `sessionStorage`. Password: **buildvision2026**.
+- Routes under `/admin/*` provide CRUD for hero slides, projects, services, team, events, commerce, blog, partners, testimonials, quotes, contact messages.
 
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- `pnpm --filter @workspace/api-server run dev` — run API server locally
+## Database
+- Provisioned PostgreSQL (`DATABASE_URL`).
+- Schema in `lib/db/src/schema/index.ts`. Push with `pnpm --filter @workspace/db run db:push`.
+- Seed sample content: `pnpm --filter @workspace/scripts run seed-buildvision`.
 
-See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+## Codegen / typecheck
+- After editing `openapi.yaml`: `pnpm --filter @workspace/api-spec run codegen` then `pnpm run typecheck:libs` to rebuild composite libs.

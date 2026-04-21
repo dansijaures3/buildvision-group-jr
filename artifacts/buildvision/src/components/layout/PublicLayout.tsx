@@ -1,0 +1,221 @@
+import { Link, useLocation } from "wouter";
+import { Menu, X, ChevronRight, Phone, Mail, MapPin } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+
+export function PublicLayout({ children }: { children: React.ReactNode }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [location] = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
+
+  const navLinks = [
+    { label: "Accueil", href: "/" },
+    { label: "À propos", href: "/a-propos" },
+    { label: "Services", href: "/services" },
+    { label: "Projets", href: "/projets" },
+    { label: "Événementiel", href: "/evenementiel" },
+    { label: "Commerce", href: "/commerce" },
+    { label: "Équipe", href: "/equipe" },
+    { label: "Blog", href: "/blog" },
+    { label: "Partenaires", href: "/partenaires" },
+    { label: "Contact", href: "/contact" },
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col font-sans text-foreground bg-background">
+      {/* Header */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-background/95 backdrop-blur-md border-b border-border shadow-sm py-3"
+            : "bg-transparent py-5"
+        }`}
+      >
+        <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
+          <Link href="/">
+            <div className="flex items-center gap-2 cursor-pointer group">
+              <div className="w-10 h-10 bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold text-xl rounded-sm group-hover:scale-105 transition-transform">
+                BV
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className={`font-serif font-bold text-lg tracking-tight ${isScrolled ? "text-foreground" : "text-white drop-shadow-md"}`}>
+                  BuildVision
+                </span>
+                <span className={`text-[10px] font-medium tracking-widest uppercase ${isScrolled ? "text-muted-foreground" : "text-white/80 drop-shadow-md"}`}>
+                  Group & JR Service
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-6">
+            {navLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                <span
+                  className={`text-sm font-medium transition-colors hover:text-primary cursor-pointer ${
+                    location === link.href
+                      ? "text-primary"
+                      : isScrolled
+                      ? "text-foreground"
+                      : "text-white/90 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </span>
+              </Link>
+            ))}
+          </nav>
+
+          <div className="hidden lg:block">
+            <Link href="/devis">
+              <Button
+                variant={isScrolled ? "default" : "secondary"}
+                className={`font-semibold ${
+                  !isScrolled ? "bg-white text-primary hover:bg-white/90" : ""
+                }`}
+              >
+                Demander un devis
+              </Button>
+            </Link>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            className="lg:hidden p-2 text-foreground"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <X className={isScrolled ? "text-foreground" : "text-white"} />
+            ) : (
+              <Menu className={isScrolled ? "text-foreground" : "text-white"} />
+            )}
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Nav Drawer */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-md pt-24 px-6 pb-6 flex flex-col overflow-y-auto">
+          <nav className="flex flex-col gap-4 flex-1">
+            {navLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                <span
+                  className={`text-2xl font-serif font-medium cursor-pointer ${
+                    location === link.href ? "text-primary" : "text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </span>
+              </Link>
+            ))}
+          </nav>
+          <div className="mt-8 pt-8 border-t border-border">
+            <Link href="/devis">
+              <Button size="lg" className="w-full font-semibold">
+                Demander un devis
+              </Button>
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <main className="flex-1">{children}</main>
+
+      {/* Footer */}
+      <footer className="bg-zinc-950 text-zinc-400 py-16 border-t border-zinc-900">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            {/* Brand */}
+            <div className="space-y-6">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold text-xl rounded-sm">
+                  BV
+                </div>
+                <div className="flex flex-col leading-none">
+                  <span className="font-serif font-bold text-lg tracking-tight text-white">
+                    BuildVision
+                  </span>
+                  <span className="text-[10px] font-medium tracking-widest uppercase text-zinc-500">
+                    Group & JR Service
+                  </span>
+                </div>
+              </div>
+              <p className="text-sm leading-relaxed max-w-xs">
+                Excellence en ingénierie, construction, architecture et événementiel en Afrique de l'Ouest. Bâtissons l'avenir ensemble.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-white font-serif font-semibold mb-6">Liens Rapides</h3>
+              <ul className="space-y-3">
+                {navLinks.slice(0, 6).map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href}>
+                      <span className="text-sm hover:text-primary transition-colors cursor-pointer inline-flex items-center group">
+                        <ChevronRight className="w-3 h-3 mr-1 opacity-0 -ml-4 group-hover:opacity-100 group-hover:ml-0 transition-all" />
+                        {link.label}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Services */}
+            <div>
+              <h3 className="text-white font-serif font-semibold mb-6">Nos Piliers</h3>
+              <ul className="space-y-3 text-sm">
+                <li>Architecture & Design</li>
+                <li>Génie Civil & Construction</li>
+                <li>Événementiel Premium</li>
+                <li>Commerce & Fourniture</li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h3 className="text-white font-serif font-semibold mb-6">Contact</h3>
+              <ul className="space-y-4 text-sm">
+                <li className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-primary shrink-0" />
+                  <span>123 Avenue de l'Indépendance<br />Abidjan, Côte d'Ivoire</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-primary shrink-0" />
+                  <span>+225 01 23 45 67 89</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-primary shrink-0" />
+                  <span>contact@buildvision.group</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-16 pt-8 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+            <p>&copy; {new Date().getFullYear()} BuildVision Group & JR Service. Tous droits réservés.</p>
+            <div className="flex gap-4">
+              <Link href="/admin/login"><span className="hover:text-white cursor-pointer">Accès Admin</span></Link>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

@@ -1,36 +1,944 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: BuildVision Group & JR Service API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
-    description: Health operations
+  - name: hero
+  - name: services
+  - name: projects
+  - name: events
+  - name: commerce
+  - name: team
+  - name: blog
+  - name: partners
+  - name: testimonials
+  - name: quotes
+  - name: contact
+  - name: stats
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
-      summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
           content:
             application/json:
+              schema: { $ref: "#/components/schemas/HealthStatus" }
+
+  /hero-slides:
+    get:
+      operationId: listHeroSlides
+      tags: [hero]
+      parameters:
+        - in: query
+          name: activeOnly
+          schema: { type: boolean }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
               schema:
-                $ref: "#/components/schemas/HealthStatus"
+                type: array
+                items: { $ref: "#/components/schemas/HeroSlide" }
+    post:
+      operationId: createHeroSlide
+      tags: [hero]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/HeroSlideInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HeroSlide" }
+  /hero-slides/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    put:
+      operationId: updateHeroSlide
+      tags: [hero]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/HeroSlideInput" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/HeroSlide" }
+    delete:
+      operationId: deleteHeroSlide
+      tags: [hero]
+      responses:
+        "204": { description: No Content }
+
+  /services:
+    get:
+      operationId: listServices
+      tags: [services]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/Service" } }
+    post:
+      operationId: createService
+      tags: [services]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ServiceInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Service" }
+  /services/{slug}:
+    parameters:
+      - in: path
+        name: slug
+        required: true
+        schema: { type: string }
+    get:
+      operationId: getService
+      tags: [services]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Service" }
+  /services/{id}/admin:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    put:
+      operationId: updateService
+      tags: [services]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ServiceInput" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Service" }
+    delete:
+      operationId: deleteService
+      tags: [services]
+      responses:
+        "204": { description: No Content }
+
+  /projects:
+    get:
+      operationId: listProjects
+      tags: [projects]
+      parameters:
+        - in: query
+          name: category
+          schema: { type: string }
+        - in: query
+          name: featured
+          schema: { type: boolean }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/Project" } }
+    post:
+      operationId: createProject
+      tags: [projects]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProjectInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Project" }
+  /projects/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    get:
+      operationId: getProject
+      tags: [projects]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Project" }
+    put:
+      operationId: updateProject
+      tags: [projects]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProjectInput" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Project" }
+    delete:
+      operationId: deleteProject
+      tags: [projects]
+      responses:
+        "204": { description: No Content }
+
+  /events:
+    get:
+      operationId: listEvents
+      tags: [events]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/Event" } }
+    post:
+      operationId: createEvent
+      tags: [events]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EventInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Event" }
+  /events/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    put:
+      operationId: updateEvent
+      tags: [events]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/EventInput" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Event" }
+    delete:
+      operationId: deleteEvent
+      tags: [events]
+      responses:
+        "204": { description: No Content }
+
+  /commerce-items:
+    get:
+      operationId: listCommerceItems
+      tags: [commerce]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/CommerceItem" } }
+    post:
+      operationId: createCommerceItem
+      tags: [commerce]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CommerceItemInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CommerceItem" }
+  /commerce-items/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    put:
+      operationId: updateCommerceItem
+      tags: [commerce]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CommerceItemInput" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CommerceItem" }
+    delete:
+      operationId: deleteCommerceItem
+      tags: [commerce]
+      responses:
+        "204": { description: No Content }
+
+  /team:
+    get:
+      operationId: listTeamMembers
+      tags: [team]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/TeamMember" } }
+    post:
+      operationId: createTeamMember
+      tags: [team]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TeamMemberInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TeamMember" }
+  /team/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    put:
+      operationId: updateTeamMember
+      tags: [team]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TeamMemberInput" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TeamMember" }
+    delete:
+      operationId: deleteTeamMember
+      tags: [team]
+      responses:
+        "204": { description: No Content }
+
+  /blog:
+    get:
+      operationId: listBlogPosts
+      tags: [blog]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/BlogPost" } }
+    post:
+      operationId: createBlogPost
+      tags: [blog]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/BlogPostInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BlogPost" }
+  /blog/{slug}:
+    parameters:
+      - in: path
+        name: slug
+        required: true
+        schema: { type: string }
+    get:
+      operationId: getBlogPost
+      tags: [blog]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BlogPost" }
+  /blog/{id}/admin:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    put:
+      operationId: updateBlogPost
+      tags: [blog]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/BlogPostInput" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/BlogPost" }
+    delete:
+      operationId: deleteBlogPost
+      tags: [blog]
+      responses:
+        "204": { description: No Content }
+
+  /partners:
+    get:
+      operationId: listPartners
+      tags: [partners]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/Partner" } }
+    post:
+      operationId: createPartner
+      tags: [partners]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/PartnerInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Partner" }
+  /partners/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    delete:
+      operationId: deletePartner
+      tags: [partners]
+      responses:
+        "204": { description: No Content }
+
+  /testimonials:
+    get:
+      operationId: listTestimonials
+      tags: [testimonials]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/Testimonial" } }
+    post:
+      operationId: createTestimonial
+      tags: [testimonials]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/TestimonialInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Testimonial" }
+  /testimonials/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    delete:
+      operationId: deleteTestimonial
+      tags: [testimonials]
+      responses:
+        "204": { description: No Content }
+
+  /quotes:
+    get:
+      operationId: listQuoteRequests
+      tags: [quotes]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/QuoteRequest" } }
+    post:
+      operationId: createQuoteRequest
+      tags: [quotes]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/QuoteRequestInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/QuoteRequest" }
+  /quotes/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    patch:
+      operationId: updateQuoteStatus
+      tags: [quotes]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/QuoteStatusUpdate" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/QuoteRequest" }
+    delete:
+      operationId: deleteQuoteRequest
+      tags: [quotes]
+      responses:
+        "204": { description: No Content }
+
+  /contact:
+    get:
+      operationId: listContactMessages
+      tags: [contact]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/ContactMessage" } }
+    post:
+      operationId: createContactMessage
+      tags: [contact]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ContactMessageInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ContactMessage" }
+  /contact/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    delete:
+      operationId: deleteContactMessage
+      tags: [contact]
+      responses:
+        "204": { description: No Content }
+
+  /stats/dashboard:
+    get:
+      operationId: getDashboardStats
+      tags: [stats]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DashboardStats" }
+  /stats/public:
+    get:
+      operationId: getPublicStats
+      tags: [stats]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PublicStats" }
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
-        status:
-          type: string
-      required:
-        - status
+        status: { type: string }
 
+    HeroSlide:
+      type: object
+      required: [id, image, title, subtitle, displayOrder, isActive]
+      properties:
+        id: { type: integer }
+        image: { type: string }
+        title: { type: string }
+        subtitle: { type: string }
+        button1Text: { type: string, nullable: true }
+        button1Link: { type: string, nullable: true }
+        button2Text: { type: string, nullable: true }
+        button2Link: { type: string, nullable: true }
+        displayOrder: { type: integer }
+        isActive: { type: boolean }
+    HeroSlideInput:
+      type: object
+      required: [image, title, subtitle, displayOrder, isActive]
+      properties:
+        image: { type: string }
+        title: { type: string }
+        subtitle: { type: string }
+        button1Text: { type: string, nullable: true }
+        button1Link: { type: string, nullable: true }
+        button2Text: { type: string, nullable: true }
+        button2Link: { type: string, nullable: true }
+        displayOrder: { type: integer }
+        isActive: { type: boolean }
+
+    Service:
+      type: object
+      required: [id, slug, title, category, shortDescription, fullDescription, icon, image, features]
+      properties:
+        id: { type: integer }
+        slug: { type: string }
+        title: { type: string }
+        category: { type: string, description: "architecture|construction|evenementiel|commerce" }
+        shortDescription: { type: string }
+        fullDescription: { type: string }
+        icon: { type: string }
+        image: { type: string }
+        features:
+          type: array
+          items: { type: string }
+        displayOrder: { type: integer }
+    ServiceInput:
+      type: object
+      required: [slug, title, category, shortDescription, fullDescription, icon, image, features]
+      properties:
+        slug: { type: string }
+        title: { type: string }
+        category: { type: string }
+        shortDescription: { type: string }
+        fullDescription: { type: string }
+        icon: { type: string }
+        image: { type: string }
+        features:
+          type: array
+          items: { type: string }
+        displayOrder: { type: integer }
+
+    Project:
+      type: object
+      required: [id, code, title, category, description, coverImage, gallery, client, location, status, completedAt]
+      properties:
+        id: { type: integer }
+        code: { type: string }
+        title: { type: string }
+        category: { type: string }
+        description: { type: string }
+        coverImage: { type: string }
+        gallery:
+          type: array
+          items: { type: string }
+        client: { type: string }
+        location: { type: string }
+        status: { type: string }
+        completedAt: { type: string }
+        featured: { type: boolean }
+    ProjectInput:
+      type: object
+      required: [code, title, category, description, coverImage, gallery, client, location, status, completedAt]
+      properties:
+        code: { type: string }
+        title: { type: string }
+        category: { type: string }
+        description: { type: string }
+        coverImage: { type: string }
+        gallery:
+          type: array
+          items: { type: string }
+        client: { type: string }
+        location: { type: string }
+        status: { type: string }
+        completedAt: { type: string }
+        featured: { type: boolean }
+
+    Event:
+      type: object
+      required: [id, title, description, image, location, eventDate, attendees]
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        description: { type: string }
+        image: { type: string }
+        location: { type: string }
+        eventDate: { type: string }
+        attendees: { type: integer }
+        category: { type: string }
+    EventInput:
+      type: object
+      required: [title, description, image, location, eventDate, attendees]
+      properties:
+        title: { type: string }
+        description: { type: string }
+        image: { type: string }
+        location: { type: string }
+        eventDate: { type: string }
+        attendees: { type: integer }
+        category: { type: string }
+
+    CommerceItem:
+      type: object
+      required: [id, name, description, image, price, category, available]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        description: { type: string }
+        image: { type: string }
+        price: { type: string }
+        category: { type: string }
+        available: { type: boolean }
+    CommerceItemInput:
+      type: object
+      required: [name, description, image, price, category, available]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        image: { type: string }
+        price: { type: string }
+        category: { type: string }
+        available: { type: boolean }
+
+    TeamMember:
+      type: object
+      required: [id, name, role, department, photo, bio]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        role: { type: string }
+        department: { type: string }
+        photo: { type: string }
+        bio: { type: string }
+        linkedin: { type: string, nullable: true }
+        email: { type: string, nullable: true }
+        displayOrder: { type: integer }
+    TeamMemberInput:
+      type: object
+      required: [name, role, department, photo, bio]
+      properties:
+        name: { type: string }
+        role: { type: string }
+        department: { type: string }
+        photo: { type: string }
+        bio: { type: string }
+        linkedin: { type: string, nullable: true }
+        email: { type: string, nullable: true }
+        displayOrder: { type: integer }
+
+    BlogPost:
+      type: object
+      required: [id, slug, title, excerpt, content, coverImage, author, publishedAt]
+      properties:
+        id: { type: integer }
+        slug: { type: string }
+        title: { type: string }
+        excerpt: { type: string }
+        content: { type: string }
+        coverImage: { type: string }
+        author: { type: string }
+        publishedAt: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+    BlogPostInput:
+      type: object
+      required: [slug, title, excerpt, content, coverImage, author, publishedAt]
+      properties:
+        slug: { type: string }
+        title: { type: string }
+        excerpt: { type: string }
+        content: { type: string }
+        coverImage: { type: string }
+        author: { type: string }
+        publishedAt: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+
+    Partner:
+      type: object
+      required: [id, name, logo]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        logo: { type: string }
+        website: { type: string, nullable: true }
+    PartnerInput:
+      type: object
+      required: [name, logo]
+      properties:
+        name: { type: string }
+        logo: { type: string }
+        website: { type: string, nullable: true }
+
+    Testimonial:
+      type: object
+      required: [id, name, role, company, quote, rating]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        role: { type: string }
+        company: { type: string }
+        quote: { type: string }
+        rating: { type: integer }
+        photo: { type: string, nullable: true }
+    TestimonialInput:
+      type: object
+      required: [name, role, company, quote, rating]
+      properties:
+        name: { type: string }
+        role: { type: string }
+        company: { type: string }
+        quote: { type: string }
+        rating: { type: integer }
+        photo: { type: string, nullable: true }
+
+    QuoteRequest:
+      type: object
+      required: [id, name, email, phone, company, projectType, budget, description, status, createdAt]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        company: { type: string }
+        projectType: { type: string }
+        budget: { type: string }
+        description: { type: string }
+        status: { type: string }
+        createdAt: { type: string }
+    QuoteRequestInput:
+      type: object
+      required: [name, email, phone, company, projectType, budget, description]
+      properties:
+        name: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        company: { type: string }
+        projectType: { type: string }
+        budget: { type: string }
+        description: { type: string }
+
+    ContactMessage:
+      type: object
+      required: [id, name, email, subject, message, createdAt]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        email: { type: string }
+        phone: { type: string, nullable: true }
+        subject: { type: string }
+        message: { type: string }
+        createdAt: { type: string }
+    ContactMessageInput:
+      type: object
+      required: [name, email, subject, message]
+      properties:
+        name: { type: string }
+        email: { type: string }
+        phone: { type: string, nullable: true }
+        subject: { type: string }
+        message: { type: string }
+
+    DashboardStats:
+      type: object
+      required: [totalProjects, activeProjects, totalQuotes, pendingQuotes, totalContactMessages, totalEvents, totalServices, totalTeamMembers, recentQuotes, projectsByCategory]
+      properties:
+        totalProjects: { type: integer }
+        activeProjects: { type: integer }
+        totalQuotes: { type: integer }
+        pendingQuotes: { type: integer }
+        totalContactMessages: { type: integer }
+        totalEvents: { type: integer }
+        totalServices: { type: integer }
+        totalTeamMembers: { type: integer }
+        recentQuotes:
+          type: array
+          items: { $ref: "#/components/schemas/QuoteRequest" }
+        projectsByCategory:
+          type: array
+          items:
+            type: object
+            required: [category, count]
+            properties:
+              category: { type: string }
+              count: { type: integer }
+
+    QuoteStatusUpdate:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string }
+
+    PublicStats:
+      type: object
+      required: [projectsCompleted, clientsServed, activeWorksites, eventsOrganized]
+      properties:
+        projectsCompleted: { type: integer }
+        clientsServed: { type: integer }
+        activeWorksites: { type: integer }
+        eventsOrganized: { type: integer }

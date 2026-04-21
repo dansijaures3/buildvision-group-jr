@@ -1,0 +1,14 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "kDf3e6VJ1fPKuuMz7rZ78"
+uri = "file://artifacts/buildvision/src/assets/images/about-hero.png"
+type = "image"
+title = "West African corporate headquarters"
+
+[[generated]]
+id = "rNmuuSQe4siGTXa9jSvbD"
+uri = "file://artifacts/buildvision/src/assets/images/map-blueprint.png"
+type = "image"
+title = "Architectural map blueprint"
