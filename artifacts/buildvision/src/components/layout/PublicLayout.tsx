@@ -49,15 +49,19 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
         <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
           <Link href="/">
             <div className="flex items-center gap-2 cursor-pointer group">
-              <div className="w-10 h-10 bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold text-xl rounded-sm group-hover:scale-105 transition-transform">
-                BV
-              </div>
+              {info?.logo ? (
+                <img src={info.logo} alt={info.name || "BuildVision"} className="h-10 w-auto object-contain group-hover:scale-105 transition-transform" />
+              ) : (
+                <div className="w-10 h-10 bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold text-xl rounded-sm group-hover:scale-105 transition-transform">
+                  BV
+                </div>
+              )}
               <div className="flex flex-col leading-none">
                 <span className={`font-serif font-bold text-lg tracking-tight ${isScrolled ? "text-foreground" : "text-white drop-shadow-md"}`}>
-                  BuildVision
+                  {info?.name?.split(" ")[0] || "BuildVision"}
                 </span>
-                <span className={`text-[10px] font-medium tracking-widest uppercase ${isScrolled ? "text-muted-foreground" : "text-white/80 drop-shadow-md"}`}>
-                  Group & JR Service
+                <span className={`text-[10px] font-medium tracking-widest uppercase whitespace-nowrap ${isScrolled ? "text-muted-foreground" : "text-white/80 drop-shadow-md"}`}>
+                  Group &amp; JR Service
                 </span>
               </div>
             </div>
@@ -145,20 +149,24 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
             {/* Brand */}
             <div className="space-y-6">
               <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold text-xl rounded-sm">
-                  BV
-                </div>
+                {info?.logo ? (
+                  <img src={info.logo} alt={info.name || "BuildVision"} className="h-10 w-auto object-contain" />
+                ) : (
+                  <div className="w-10 h-10 bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold text-xl rounded-sm">
+                    BV
+                  </div>
+                )}
                 <div className="flex flex-col leading-none">
                   <span className="font-serif font-bold text-lg tracking-tight text-white">
-                    BuildVision
+                    {info?.name?.split(" ")[0] || "BuildVision"}
                   </span>
-                  <span className="text-[10px] font-medium tracking-widest uppercase text-zinc-500">
-                    Group & JR Service
+                  <span className="text-[10px] font-medium tracking-widest uppercase text-zinc-500 whitespace-nowrap">
+                    Group &amp; JR Service
                   </span>
                 </div>
               </div>
               <p className="text-sm leading-relaxed max-w-xs">
-                Excellence en ingénierie, construction, architecture et événementiel en Afrique de l'Ouest. Bâtissons l'avenir ensemble.
+                {info?.about?.slice(0, 200) || "Excellence en ingénierie, construction, architecture et événementiel en Afrique de l'Ouest. Bâtissons l'avenir ensemble."}
               </p>
             </div>
 
