@@ -116,8 +116,11 @@ export interface CommerceItem {
   description: string;
   image: string;
   price: string;
+  priceAmount: number;
+  currency: string;
   category: string;
   available: boolean;
+  stock: number;
 }
 
 export interface CommerceItemInput {
@@ -125,8 +128,61 @@ export interface CommerceItemInput {
   description: string;
   image: string;
   price: string;
+  priceAmount: number;
+  currency: string;
   category: string;
   available: boolean;
+  stock: number;
+}
+
+export interface OrderItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+export interface Order {
+  id: number;
+  reference: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  customerAddress?: string | null;
+  items: OrderItem[];
+  subtotal: number;
+  total: number;
+  currency: string;
+  status: string;
+  paymentProvider: string;
+  paymentTransactionId?: string | null;
+  paymentUrl?: string | null;
+  notes?: string | null;
+  createdAt: string;
+  paidAt?: string | null;
+}
+
+export type CheckoutInputItemsItem = {
+  id: number;
+  quantity: number;
+};
+
+export interface CheckoutInput {
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  customerAddress?: string | null;
+  notes?: string | null;
+  items: CheckoutInputItemsItem[];
+}
+
+export interface CheckoutResponse {
+  order: Order;
+  paymentUrl: string;
+}
+
+export interface OrderStatusInput {
+  status: string;
 }
 
 export interface TeamMember {

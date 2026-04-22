@@ -66,8 +66,31 @@ export const commerceItems = pgTable("commerce_items", {
   description: text("description").notNull(),
   image: text("image").notNull(),
   price: text("price").notNull(),
+  priceAmount: integer("price_amount").notNull().default(0),
+  currency: text("currency").notNull().default("XOF"),
   category: text("category").notNull(),
   available: boolean("available").notNull().default(true),
+  stock: integer("stock").notNull().default(0),
+});
+
+export const orders = pgTable("orders", {
+  id: serial("id").primaryKey(),
+  reference: text("reference").notNull().unique(),
+  customerName: text("customer_name").notNull(),
+  customerEmail: text("customer_email").notNull(),
+  customerPhone: text("customer_phone").notNull(),
+  customerAddress: text("customer_address"),
+  items: jsonb("items").$type<Array<{ id: number; name: string; price: number; quantity: number }>>().notNull().default([]),
+  subtotal: integer("subtotal").notNull().default(0),
+  total: integer("total").notNull().default(0),
+  currency: text("currency").notNull().default("XOF"),
+  status: text("status").notNull().default("pending"),
+  paymentProvider: text("payment_provider").notNull().default("fedapay"),
+  paymentTransactionId: text("payment_transaction_id"),
+  paymentUrl: text("payment_url"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  paidAt: timestamp("paid_at", { withTimezone: true }),
 });
 
 export const teamMembers = pgTable("team_members", {

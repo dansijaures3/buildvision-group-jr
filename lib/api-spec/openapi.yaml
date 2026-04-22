@@ -319,6 +319,61 @@ paths:
       responses:
         "204": { description: No Content }
 
+  /checkout:
+    post:
+      operationId: createCheckout
+      tags: [orders]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CheckoutInput" }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CheckoutResponse" }
+  /orders:
+    get:
+      operationId: listOrders
+      tags: [orders]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { type: array, items: { $ref: "#/components/schemas/Order" } }
+  /orders/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: integer }
+    get:
+      operationId: getOrder
+      tags: [orders]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Order" }
+    patch:
+      operationId: updateOrderStatus
+      tags: [orders]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/OrderStatusInput" }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Order" }
+
   /team:
     get:
       operationId: listTeamMembers
@@ -768,25 +823,91 @@ components:
 
     CommerceItem:
       type: object
-      required: [id, name, description, image, price, category, available]
+      required: [id, name, description, image, price, priceAmount, currency, category, available, stock]
       properties:
         id: { type: integer }
         name: { type: string }
         description: { type: string }
         image: { type: string }
         price: { type: string }
+        priceAmount: { type: integer }
+        currency: { type: string }
         category: { type: string }
         available: { type: boolean }
+        stock: { type: integer }
     CommerceItemInput:
       type: object
-      required: [name, description, image, price, category, available]
+      required: [name, description, image, price, priceAmount, currency, category, available, stock]
       properties:
         name: { type: string }
         description: { type: string }
         image: { type: string }
         price: { type: string }
+        priceAmount: { type: integer }
+        currency: { type: string }
         category: { type: string }
         available: { type: boolean }
+        stock: { type: integer }
+
+    OrderItem:
+      type: object
+      required: [id, name, price, quantity]
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        price: { type: integer }
+        quantity: { type: integer }
+    Order:
+      type: object
+      required: [id, reference, customerName, customerEmail, customerPhone, items, subtotal, total, currency, status, paymentProvider, createdAt]
+      properties:
+        id: { type: integer }
+        reference: { type: string }
+        customerName: { type: string }
+        customerEmail: { type: string }
+        customerPhone: { type: string }
+        customerAddress: { type: string, nullable: true }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/OrderItem" }
+        subtotal: { type: integer }
+        total: { type: integer }
+        currency: { type: string }
+        status: { type: string }
+        paymentProvider: { type: string }
+        paymentTransactionId: { type: string, nullable: true }
+        paymentUrl: { type: string, nullable: true }
+        notes: { type: string, nullable: true }
+        createdAt: { type: string }
+        paidAt: { type: string, nullable: true }
+    CheckoutInput:
+      type: object
+      required: [customerName, customerEmail, customerPhone, items]
+      properties:
+        customerName: { type: string }
+        customerEmail: { type: string }
+        customerPhone: { type: string }
+        customerAddress: { type: string, nullable: true }
+        notes: { type: string, nullable: true }
+        items:
+          type: array
+          items:
+            type: object
+            required: [id, quantity]
+            properties:
+              id: { type: integer }
+              quantity: { type: integer }
+    CheckoutResponse:
+      type: object
+      required: [order, paymentUrl]
+      properties:
+        order: { $ref: "#/components/schemas/Order" }
+        paymentUrl: { type: string }
+    OrderStatusInput:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string }
 
     TeamMember:
       type: object

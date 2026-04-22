@@ -48,6 +48,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     { label: "Partenaires", href: "/admin/partners", icon: Handshake },
     { label: "Témoignages", href: "/admin/testimonials", icon: MessageSquareQuote },
     { label: "Devis", href: "/admin/quotes", icon: FileText },
+    { label: "Commandes", href: "/admin/orders", icon: ShoppingCart },
     { label: "Messages", href: "/admin/contact", icon: MessageSquare },
     { label: "Informations entreprise", href: "/admin/company", icon: Building2 },
   ];

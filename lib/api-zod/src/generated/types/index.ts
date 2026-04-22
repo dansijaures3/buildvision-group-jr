@@ -8,6 +8,9 @@
 
 export * from "./blogPost";
 export * from "./blogPostInput";
+export * from "./checkoutInput";
+export * from "./checkoutInputItemsItem";
+export * from "./checkoutResponse";
 export * from "./commerceItem";
 export * from "./commerceItemInput";
 export * from "./companyInfo";
@@ -23,6 +26,9 @@ export * from "./heroSlide";
 export * from "./heroSlideInput";
 export * from "./listHeroSlidesParams";
 export * from "./listProjectsParams";
+export * from "./order";
+export * from "./orderItem";
+export * from "./orderStatusInput";
 export * from "./partner";
 export * from "./partnerInput";
 export * from "./project";

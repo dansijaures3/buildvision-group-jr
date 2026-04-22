@@ -304,8 +304,11 @@ export const ListCommerceItemsResponseItem = zod.object({
   description: zod.string(),
   image: zod.string(),
   price: zod.string(),
+  priceAmount: zod.number(),
+  currency: zod.string(),
   category: zod.string(),
   available: zod.boolean(),
+  stock: zod.number(),
 });
 export const ListCommerceItemsResponse = zod.array(
   ListCommerceItemsResponseItem,
@@ -316,8 +319,11 @@ export const CreateCommerceItemBody = zod.object({
   description: zod.string(),
   image: zod.string(),
   price: zod.string(),
+  priceAmount: zod.number(),
+  currency: zod.string(),
   category: zod.string(),
   available: zod.boolean(),
+  stock: zod.number(),
 });
 
 export const UpdateCommerceItemParams = zod.object({
@@ -329,8 +335,11 @@ export const UpdateCommerceItemBody = zod.object({
   description: zod.string(),
   image: zod.string(),
   price: zod.string(),
+  priceAmount: zod.number(),
+  currency: zod.string(),
   category: zod.string(),
   available: zod.boolean(),
+  stock: zod.number(),
 });
 
 export const UpdateCommerceItemResponse = zod.object({
@@ -339,12 +348,123 @@ export const UpdateCommerceItemResponse = zod.object({
   description: zod.string(),
   image: zod.string(),
   price: zod.string(),
+  priceAmount: zod.number(),
+  currency: zod.string(),
   category: zod.string(),
   available: zod.boolean(),
+  stock: zod.number(),
 });
 
 export const DeleteCommerceItemParams = zod.object({
   id: zod.coerce.number(),
+});
+
+export const CreateCheckoutBody = zod.object({
+  customerName: zod.string(),
+  customerEmail: zod.string(),
+  customerPhone: zod.string(),
+  customerAddress: zod.string().nullish(),
+  notes: zod.string().nullish(),
+  items: zod.array(
+    zod.object({
+      id: zod.number(),
+      quantity: zod.number(),
+    }),
+  ),
+});
+
+export const ListOrdersResponseItem = zod.object({
+  id: zod.number(),
+  reference: zod.string(),
+  customerName: zod.string(),
+  customerEmail: zod.string(),
+  customerPhone: zod.string(),
+  customerAddress: zod.string().nullish(),
+  items: zod.array(
+    zod.object({
+      id: zod.number(),
+      name: zod.string(),
+      price: zod.number(),
+      quantity: zod.number(),
+    }),
+  ),
+  subtotal: zod.number(),
+  total: zod.number(),
+  currency: zod.string(),
+  status: zod.string(),
+  paymentProvider: zod.string(),
+  paymentTransactionId: zod.string().nullish(),
+  paymentUrl: zod.string().nullish(),
+  notes: zod.string().nullish(),
+  createdAt: zod.string(),
+  paidAt: zod.string().nullish(),
+});
+export const ListOrdersResponse = zod.array(ListOrdersResponseItem);
+
+export const GetOrderParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const GetOrderResponse = zod.object({
+  id: zod.number(),
+  reference: zod.string(),
+  customerName: zod.string(),
+  customerEmail: zod.string(),
+  customerPhone: zod.string(),
+  customerAddress: zod.string().nullish(),
+  items: zod.array(
+    zod.object({
+      id: zod.number(),
+      name: zod.string(),
+      price: zod.number(),
+      quantity: zod.number(),
+    }),
+  ),
+  subtotal: zod.number(),
+  total: zod.number(),
+  currency: zod.string(),
+  status: zod.string(),
+  paymentProvider: zod.string(),
+  paymentTransactionId: zod.string().nullish(),
+  paymentUrl: zod.string().nullish(),
+  notes: zod.string().nullish(),
+  createdAt: zod.string(),
+  paidAt: zod.string().nullish(),
+});
+
+export const UpdateOrderStatusParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateOrderStatusBody = zod.object({
+  status: zod.string(),
+});
+
+export const UpdateOrderStatusResponse = zod.object({
+  id: zod.number(),
+  reference: zod.string(),
+  customerName: zod.string(),
+  customerEmail: zod.string(),
+  customerPhone: zod.string(),
+  customerAddress: zod.string().nullish(),
+  items: zod.array(
+    zod.object({
+      id: zod.number(),
+      name: zod.string(),
+      price: zod.number(),
+      quantity: zod.number(),
+    }),
+  ),
+  subtotal: zod.number(),
+  total: zod.number(),
+  currency: zod.string(),
+  status: zod.string(),
+  paymentProvider: zod.string(),
+  paymentTransactionId: zod.string().nullish(),
+  paymentUrl: zod.string().nullish(),
+  notes: zod.string().nullish(),
+  createdAt: zod.string(),
+  paidAt: zod.string().nullish(),
 });
 
 export const ListTeamMembersResponseItem = zod.object({

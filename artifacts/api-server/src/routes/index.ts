@@ -13,6 +13,7 @@ import quotesRouter from "./quotes";
 import contactRouter from "./contact";
 import statsRouter from "./stats";
 import companyInfoRouter from "./companyInfo";
+import ordersRouter from "./orders";
 
 const router: IRouter = Router();
 
@@ -30,5 +31,6 @@ router.use(quotesRouter);
 router.use(contactRouter);
 router.use(statsRouter);
 router.use(companyInfoRouter);
+router.use(ordersRouter);
 
 export default router;

@@ -11,6 +11,9 @@ export interface CommerceItemInput {
   description: string;
   image: string;
   price: string;
+  priceAmount: number;
+  currency: string;
   category: string;
   available: boolean;
+  stock: number;
 }

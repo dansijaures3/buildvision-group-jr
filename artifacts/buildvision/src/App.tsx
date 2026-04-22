@@ -19,6 +19,7 @@ import BlogDetail from "@/pages/BlogDetail";
 import Partners from "@/pages/Partners";
 import Contact from "@/pages/Contact";
 import Quote from "@/pages/Quote";
+import CheckoutSuccess from "@/pages/CheckoutSuccess";
 
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import AdminLogin from "@/pages/admin/Login";
@@ -35,6 +36,7 @@ import AdminTestimonials from "@/pages/admin/Testimonials";
 import AdminQuotes from "@/pages/admin/Quotes";
 import AdminContact from "@/pages/admin/Contact";
 import AdminCompanyInfo from "@/pages/admin/CompanyInfo";
+import AdminOrders from "@/pages/admin/Orders";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +52,7 @@ function PublicRoutes() {
         <Route path="/projets/:id" component={ProjectDetail} />
         <Route path="/evenementiel" component={Events} />
         <Route path="/commerce" component={Commerce} />
+        <Route path="/commerce/merci" component={CheckoutSuccess} />
         <Route path="/equipe" component={Team} />
         <Route path="/blog" component={Blog} />
         <Route path="/blog/:slug" component={BlogDetail} />
@@ -77,6 +80,7 @@ function AdminRoutes() {
         <Route path="/admin/partners" component={AdminPartners} />
         <Route path="/admin/testimonials" component={AdminTestimonials} />
         <Route path="/admin/quotes" component={AdminQuotes} />
+        <Route path="/admin/orders" component={AdminOrders} />
         <Route path="/admin/contact" component={AdminContact} />
         <Route path="/admin/company" component={AdminCompanyInfo} />
         <Route component={NotFound} />

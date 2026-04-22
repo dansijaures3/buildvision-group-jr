@@ -12,7 +12,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { Pencil, Trash2 } from "lucide-react";
 
-const blank = { name: "", description: "", image: "", price: "", category: "", available: true };
+const blank = { name: "", description: "", image: "", price: "", priceAmount: 0, currency: "XOF", stock: 0, category: "", available: true };
 
 export default function AdminCommerce() {
   const qc = useQueryClient();
@@ -67,9 +67,15 @@ export default function AdminCommerce() {
               <div className="space-y-2"><Label>Description</Label><Textarea required rows={3} value={editing.description} onChange={(e) => setEditing({ ...editing, description: e.target.value })} /></div>
               <div className="space-y-2"><Label>Image (URL)</Label><Input required value={editing.image} onChange={(e) => setEditing({ ...editing, image: e.target.value })} /></div>
               <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-2"><Label>Prix</Label><Input required value={editing.price} onChange={(e) => setEditing({ ...editing, price: e.target.value })} /></div>
+                <div className="space-y-2"><Label>Prix affiché</Label><Input required placeholder="ex: 75 000 FCFA / sac" value={editing.price} onChange={(e) => setEditing({ ...editing, price: e.target.value })} /></div>
                 <div className="space-y-2"><Label>Catégorie</Label><Input required value={editing.category} onChange={(e) => setEditing({ ...editing, category: e.target.value })} /></div>
               </div>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="space-y-2"><Label>Montant (paiement)</Label><Input type="number" min="0" value={editing.priceAmount ?? 0} onChange={(e) => setEditing({ ...editing, priceAmount: Number(e.target.value) })} /></div>
+                <div className="space-y-2"><Label>Devise</Label><Input value={editing.currency || "XOF"} onChange={(e) => setEditing({ ...editing, currency: e.target.value })} /></div>
+                <div className="space-y-2"><Label>Stock</Label><Input type="number" min="0" value={editing.stock ?? 0} onChange={(e) => setEditing({ ...editing, stock: Number(e.target.value) })} /></div>
+              </div>
+              <p className="text-xs text-zinc-500">Définissez le « Montant » en chiffres pour activer le paiement en ligne. Si 0, le produit affiche « Sur devis ».</p>
               <div className="flex items-center gap-3"><Switch checked={editing.available} onCheckedChange={(v) => setEditing({ ...editing, available: v })} /><Label>Disponible</Label></div>
               <div className="pt-4 flex gap-2"><Button type="submit" className="flex-1">Enregistrer</Button><Button type="button" variant="ghost" onClick={() => setOpen(false)}>Annuler</Button></div>
             </form>
